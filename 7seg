@@ -1,0 +1,20 @@
+#include<pic.h>
+void main()
+{
+TRISB=0X00;
+PORTB=0X00;
+TRISC=0X00;
+PORTC=0X00;
+while(1)
+{
+PORTC=0X01;
+PORTB=~0XBF;
+PORTC=0X02;
+PORTB=~0X06;
+PORTC=0X04;
+PORTB=~0X5B;
+PORTC=0X08;
+PORTB=~0XCF;
+}
+}
+
