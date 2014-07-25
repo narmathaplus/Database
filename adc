@@ -1,0 +1,73 @@
+#include<pic.h>
+void delay()
+{
+for (int a=0;a<10000;a++);
+}
+void config(unsigned char cmd)
+{
+PORTE=0x04;
+delay();
+PORTB=cmd;
+delay();
+RE2=0;
+}
+
+void data(char dat)
+{
+PORTE=0x05;
+delay();
+PORTB=dat;
+delay();
+RE2=0;
+}
+
+void string(unsigned char *s)
+{
+while(s&&*s)
+data(*s++);
+}
+
+void main()
+{
+int a,b,c,d,e,f,g,h,i;
+TRISB=0X00;
+PORTB=0X00;
+TRISA=0XFF;
+PORTA=0X00;
+ADCON0=0XC5;
+ADCON1=0X8E;
+TRISE=0X00;
+PORTE=0X00;
+config(0x01);
+delay();
+config(0x38);
+delay();
+config(0x06);
+delay();
+config(0x0e);
+delay();
+config(0x80);
+delay();
+string("TEMP:");
+while(1)
+{
+while(ADGO==1);
+a=ADRESL;
+b=ADRESH;
+b=b*256;
+c=a+b;
+d=c/1000;
+e=c%1000;
+f=e/100;
+g=e%100;
+h=g/10;
+i=g%10;
+data(d+0x30);
+data(f+0x30);
+data(h+0x30);
+data(i+0x30);
+ADGO=1;
+}
+}
+
+
